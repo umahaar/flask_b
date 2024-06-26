@@ -1,22 +1,18 @@
 # Virtual environment
 venv/
 
-# Python bytecode
+# Python cache files
 *.pyc
 __pycache__/
 
-# Instance folder
+# Database and instance files
 instance/
-
-# Environment variables file
-.env
-
-# macOS specific files
-.DS_Store
-
-# Static files uploads
-static/uploads/*
-!static/uploads/.gitkeep
-
-# SQLite database files
 *.db
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# Miscellaneous
+*.log
+*.sqlite3

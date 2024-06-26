@@ -10,8 +10,7 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = "supersecretkey"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config.from_object('config.Config')
     db.init_app(app)
     migrate.init_app(app, db)
 
@@ -23,7 +22,7 @@ def create_app():
 
     from .models import User, Post
 
-    print(f"Database path: {path.abspath(DB_NAME)}")  # Add this line
+    print(f"Database path: {path.abspath(DB_NAME)}")
     create_database(app)
 
     login_manager = LoginManager()
@@ -38,13 +37,12 @@ def create_app():
 
 def create_database(app):
     db_path = path.abspath(DB_NAME)
-    print(f"Database path: {db_path}")  # Debug: Print the database path
+    print(f"Database path: {db_path}")
 
     if not path.exists(db_path):
         with app.app_context():
-            print("Creating database...")  # Debug: Indicate database creation
+            print("Creating database...")
             db.create_all()
-            print("Created database!")  # Debug: Indicate database was created
+            print("Created database!")
     else:
         print("Database already exists.")
-
