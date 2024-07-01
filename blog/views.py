@@ -37,7 +37,7 @@ def home():
     return render_template("home.html", name=current_user.username, posts=posts)
 
 @views.route("/post/<int:post_id>")
-@login_required
+@login_required # I have to deletethis line
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template("post.html", post=post)
@@ -64,7 +64,7 @@ def create_post():
             new_post = Post(title=title, body=body,image=filename, author=current_user)
             db.session.add(new_post)
             db.session.commit()
-            flash("Post created!", category='success')
+            flash("Post created as you wanted it to!", category='success')
             return redirect(url_for("views.home"))
 
     return render_template("create_post.html")
