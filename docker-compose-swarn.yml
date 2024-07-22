@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+     # MARIADB_USER: usama
+     # MARIADB_PASSWORD: pakistan
+      MARIADB_DATABASE: flaskdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    
+  flask_blog:
+    depends_on:
+      - db
+    image: flask_blog-flask_blog:latest
+    expose:
+      - 8000
+    networks:
+      - backend
+  
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+    depends_on:
+      - flask_blog
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  mariadb_data:
